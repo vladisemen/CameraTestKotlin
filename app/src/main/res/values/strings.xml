@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CameraTest</string>
+    <string name="this_is_imageview" />
+    <string name="delete_photo">Фото удалено</string>
+</resources>
