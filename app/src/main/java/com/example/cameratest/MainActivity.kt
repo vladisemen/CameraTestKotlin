@@ -2,9 +2,7 @@ package com.example.cameratest
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import com.example.cameratest.ui.main.MainFragment
-import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainActivity : AppCompatActivity() {
 
