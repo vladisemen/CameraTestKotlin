@@ -36,7 +36,7 @@ import java.util.*
 
 class MainFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1
-    lateinit var currentPhotoPath: String
+    var currentPhotoPath: String = ""
     lateinit var PhotoPath: Uri
 
 
@@ -55,7 +55,9 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         button_show_photo.setOnClickListener {
-            imageView.setImageURI(PhotoPath)
+            if (currentPhotoPath !== ""){
+                imageView.setImageURI(PhotoPath)
+            }
         }
         button_delete.setOnClickListener {
             deletePicture()
@@ -142,7 +144,7 @@ class MainFragment : Fragment() {
         Toast.makeText(context, text, duration).show()
     }
 
-    suspend fun post():String {
+    fun post():String {
         val client = OkHttpClient()
         val url = URL("https://reqres.in/api/users")
 
@@ -177,6 +179,7 @@ class MainFragment : Fragment() {
         println("My name is " + objData.get("name").textValue() + ", and I'm a " + objData.get("job").textValue() + ".")
         return objData.get("name").textValue()
     }
+
     //doesn't work, I am fucking it!
     private fun galleryAddPic() {
         val Cont = activity?.applicationContext
