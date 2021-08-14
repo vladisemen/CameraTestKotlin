@@ -38,6 +38,7 @@ class MainFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1
     var currentPhotoPath: String = ""
     lateinit var PhotoPath: Uri
+    private val KEY_INDEX = "index"
 
 
     companion object {
@@ -51,9 +52,17 @@ class MainFragment : Fragment() {
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //outState.putBoolean(IS_EDITING_KEY, isEditing)
+        outState.putString(KEY_INDEX, textView1.text as String?)
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        val currentIndex = savedInstanceState?.getString(KEY_INDEX, "1") ?: "1"
+        textView1.text = currentIndex
         button_show_photo.setOnClickListener {
             if (currentPhotoPath !== ""){
                 imageView.setImageURI(PhotoPath)
@@ -73,6 +82,7 @@ class MainFragment : Fragment() {
                 }
                 val duration = Toast.LENGTH_SHORT
                 Toast.makeText(context, NameStr, duration).show()
+                textView1.text = NameStr
             }
 
         }
