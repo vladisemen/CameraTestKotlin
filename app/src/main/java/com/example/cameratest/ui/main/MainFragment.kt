@@ -2,7 +2,6 @@ package com.example.cameratest.ui.main
 
 import android.content.Intent
 import android.media.MediaScannerConnection
-import android.media.MediaScannerConnection.OnScanCompletedListener
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -22,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -58,6 +56,9 @@ class MainFragment : Fragment() {
         outState.putString(KEY_INDEX, textView1.text as String?)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
@@ -131,7 +132,8 @@ class MainFragment : Fragment() {
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val storageDir: File? = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+        //val storageDir1: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
                 ".jpg", /* suffix */
@@ -197,15 +199,15 @@ class MainFragment : Fragment() {
         if (Cont != null) {
             var files: Array<String> = Cont.fileList()
             val f = File(currentPhotoPath)
-
             try {
+                val a = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                MediaScannerConnection.scanFile(Cont, arrayOf(f.toString()),
+                        null, null)
                 //MediaScannerConnection.scanFile(Cont, arrayOf(f.toString()), null, null)
-                MediaScannerConnection.scanFile(Cont, arrayOf(f.toString()), null,
-                        OnScanCompletedListener { path, uri ->
-                            Log.i("ExternalStorage", "Scanned $path:")
-                            Log.i("ExternalStorage", "-> uri=$uri")
-                        })
+
             }
+
+
             catch (e: IOException) {
                 // Unable to create file, likely because external storage is
                 // not currently mounted.
