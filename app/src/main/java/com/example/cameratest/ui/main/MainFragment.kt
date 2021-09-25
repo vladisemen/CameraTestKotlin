@@ -1,5 +1,6 @@
 package com.example.cameratest.ui.main
 
+import android.app.Activity
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
@@ -37,6 +38,7 @@ class MainFragment : Fragment() {
     var currentPhotoPath: String = ""
     lateinit var PhotoPath: Uri
     private val KEY_INDEX = "index"
+    val REQUEST_CODE = 100
 
 
     companion object {
@@ -76,6 +78,9 @@ class MainFragment : Fragment() {
             dispatchTakePictureIntent()
             galleryAddPic()
         }
+        button_openG.setOnClickListener {
+            openGalleryForImage()
+        }
         button_post.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main){
                 val NameStr = withContext(Dispatchers.Default) {
@@ -91,7 +96,12 @@ class MainFragment : Fragment() {
         //galleryAddPic()
 
     }
-
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            imageView.setImageURI(data?.data) // handle chosen image
+        }
+    }
     private fun dispatchTakePictureIntent() {
         val activity = getActivity()
         if(activity != null) {
@@ -136,6 +146,7 @@ class MainFragment : Fragment() {
         //val storageDir1: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile(
                 "JPEG_${timeStamp}_", /* prefix */
+            //"JPEG_my",
                 ".jpg", /* suffix */
                 storageDir /* directory */
         ).apply {
@@ -215,6 +226,11 @@ class MainFragment : Fragment() {
             }
 
         }
+    }
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_CODE)
     }
 }
 

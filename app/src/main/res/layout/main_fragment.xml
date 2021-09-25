@@ -39,6 +39,12 @@
                 android:layout_height="wrap_content"
                 android:text="Delete" />
 
+            <Button
+                android:id="@+id/button_openG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Открыть галерею" />
+
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
@@ -50,6 +56,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/this_is_imageview" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
