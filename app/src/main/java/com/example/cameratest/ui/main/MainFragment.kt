@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cameratest.R
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -62,10 +63,10 @@ class MainFragment : Fragment() {
         super.onDestroy()
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
+
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         val currentIndex = savedInstanceState?.getString(KEY_INDEX, "1") ?: "1"
-        textView1.text = currentIndex
         button_show_photo.setOnClickListener {
             if (currentPhotoPath !== ""){
                 imageView.setImageURI(PhotoPath)
