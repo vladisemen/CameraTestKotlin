@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         if (savedInstanceState == null) {
-            makeCurrentFragment(mainFragment)
+            makeCurrentFragment(infoFragment)
         }
     }
     private fun makeCurrentFragment(fragment: Fragment){

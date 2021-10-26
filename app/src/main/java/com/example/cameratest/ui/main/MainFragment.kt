@@ -169,39 +169,11 @@ class MainFragment : Fragment() {
     }
 
     fun post():String {
-        val client = OkHttpClient()
-        val url = URL("https://reqres.in/api/users")
-
-        //just a string
-        var jsonString = "{\"name\": \"Rolando\", \"job\": \"Fakeador\"}"
-
-        //or using jackson
-        val mapperAll = ObjectMapper()
-        val jacksonObj = mapperAll.createObjectNode()
-        jacksonObj.put("name", "Rolando")
-        jacksonObj.put("job", "Fakeador")
-        val jacksonString = jacksonObj.toString()
-
-        val mediaType = "application/json; charset=utf-8".toMediaType()
-        val body = jacksonString.toRequestBody(mediaType)
-
-        val request = Request.Builder()
-            .url(url)
-            .post(body)
-            .build()
-
-        val response = client.newCall(request).execute()
-
-        val responseBody = response.body!!.string()
-
-        //Response
-        println("Response Body: " + responseBody)
-
-        //we could use jackson if we got a JSON
-        val objData = mapperAll.readTree(responseBody)
-
-        println("My name is " + objData.get("name").textValue() + ", and I'm a " + objData.get("job").textValue() + ".")
-        return objData.get("name").textValue()
+        val uploader = activity?.let { UploadUtility(it) }
+        if (uploader != null) {
+            uploader.uploadFile(currentPhotoPath)
+        }
+        return ("Все ок")
     }
 
     //doesn't work, I am fucking it!
