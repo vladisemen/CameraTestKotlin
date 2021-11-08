@@ -43,12 +43,15 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     fun post(): String {
-        val ans = Fuel.post("https://4dd3-185-52-141-39.ngrok.io/customer")
+        val firstName = editUsername.text
+        val textEmail = editEmail.text
+        val textPassword = editPassword.text
+        val ans = Fuel.post("https://4dd3-185-52-141-39.ngrok.io/customer") // проверить русские буквы, могут быть проблемы с кодировкой
                 .jsonBody("{\"id\": \"100\", " +
-                        "\"firstName\": \"Fakeador\", " +
-                        "\"lastName\": \"Fakeador\", " +
-                        "\"password\": \"Fakeador\", " +
-                        "\"email\": \"Fakeador\"}")
+                        "\"firstName\": \"$firstName\", " +
+                        "\"lastName\": \"$firstName\", " +
+                        "\"password\": \"$textPassword\", " +
+                        "\"email\": \"$textEmail\"}")
                 .also { println(it) }
                 .response()
         return ans.second.responseMessage
