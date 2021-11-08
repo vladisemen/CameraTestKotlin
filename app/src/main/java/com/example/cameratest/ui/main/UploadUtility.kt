@@ -2,10 +2,10 @@ package com.example.cameratest.ui.main
 
 import android.app.Activity
 import android.app.ProgressDialog
-import android.net.Uri
 import android.util.Log
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import com.example.cameratest.Server
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -15,17 +15,17 @@ class UploadUtility(activity: Activity) {
 
     var activity = activity;
     var dialog: ProgressDialog? = null
-    var serverURL: String = "https://4dd3-185-52-141-39.ngrok.io/upload"
-    var serverUploadDirectoryPath: String = "https://4dd3-185-52-141-39.ngrok.io/upload"
-    val client = OkHttpClient()
+    var serverURL: String = Server().Path
+    var serverUploadDirectoryPath: String = Server().Path
+    private val client = OkHttpClient()
 
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {
         uploadFile(File(sourceFilePath), uploadedFileName)
     }
 
-    fun uploadFile(sourceFile: File, uploadedFileName: String? = null) {
+    private fun uploadFile(sourceFile: File, uploadedFileName: String? = null) {
         Thread {
-            val mimeType = getMimeType(sourceFile);
+            val mimeType = getMimeType(sourceFile)
             if (mimeType == null) {
                 Log.e("file error", "Not able to get mime type")
                 return@Thread
@@ -64,7 +64,7 @@ class UploadUtility(activity: Activity) {
     }
 
     // url = file path or whatever suitable URL you want.
-    fun getMimeType(file: File): String? {
+    private fun getMimeType(file: File): String? {
         var type: String? = null
         val extension = MimeTypeMap.getFileExtensionFromUrl(file.path)
         if (extension != null) {
@@ -73,18 +73,18 @@ class UploadUtility(activity: Activity) {
         return type
     }
 
-    fun showToast(message: String) {
+    private fun showToast(message: String) {
         activity.runOnUiThread {
             Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
         }
     }
 
-    fun toggleProgressDialog(show: Boolean) {
+    private fun toggleProgressDialog(show: Boolean) {
         activity.runOnUiThread {
             if (show) {
-                dialog = ProgressDialog.show(activity, "", "Uploading file...", true);
+                dialog = ProgressDialog.show(activity, "", "Uploading file...", true)
             } else {
-                dialog?.dismiss();
+                dialog?.dismiss()
             }
         }
     }

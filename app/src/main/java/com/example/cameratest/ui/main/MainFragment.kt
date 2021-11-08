@@ -16,27 +16,20 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cameratest.R
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import java.io.IOException
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class MainFragment : Fragment() {
     private val REQUEST_IMAGE_CAPTURE = 1
-    var currentPhotoPath: String = ""
+    private var currentPhotoPath: String = ""
     lateinit var PhotoPath: Uri
     private val KEY_INDEX = "index"
     val REQUEST_CODE = 100
@@ -66,10 +59,10 @@ class MainFragment : Fragment() {
 
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        val currentIndex = savedInstanceState?.getString(KEY_INDEX, "1") ?: "1"
+        val s = savedInstanceState?.getString(KEY_INDEX, "1") ?: "1"
         button_show_photo.setOnClickListener {
             if (currentPhotoPath !== ""){
-                imageView.setImageURI(PhotoPath)
+                imageView.setImageURI(this.PhotoPath)
             }
         }
         button_delete.setOnClickListener {
@@ -104,11 +97,11 @@ class MainFragment : Fragment() {
         }
     }
     private fun dispatchTakePictureIntent() {
-        val activity = getActivity()
+        val activity = activity
         if(activity != null) {
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             // Ensure that there's a camera activity to handle the intent
-            takePictureIntent.resolveActivity(activity.getPackageManager())?.also {
+            takePictureIntent.resolveActivity(activity.packageManager)?.also {
                 // Create the File where the photo should go
                 val photoFile: File? = try {
                     createImageFile()
@@ -118,11 +111,11 @@ class MainFragment : Fragment() {
                 }
                 // Continue only if the File was successfully created
 
-                val Cont = activity?.applicationContext
-                if (Cont != null) {
+                val cont = activity?.applicationContext
+                if (cont != null) {
                     photoFile?.also {
                         val photoURI: Uri = FileProvider.getUriForFile(
-                                Cont,
+                                cont,
                                 "com.example.android.fileprovider",
                                 it
                         )
@@ -168,7 +161,7 @@ class MainFragment : Fragment() {
         Toast.makeText(context, text, duration).show()
     }
 
-    fun post():String {
+    private fun post():String {
         val uploader = activity?.let { UploadUtility(it) }
         uploader?.uploadFile(currentPhotoPath)
         return ("Все ок")
@@ -176,26 +169,23 @@ class MainFragment : Fragment() {
 
     //doesn't work, I am fucking it!
     private fun galleryAddPic() {
-        val Cont = activity?.applicationContext
+        val cont = activity?.applicationContext
 
-        if (Cont != null) {
-            var files: Array<String> = Cont.fileList()
+        if (cont != null) {
+            cont.fileList()
             val f = File(currentPhotoPath)
             try {
-                val a = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-                MediaScannerConnection.scanFile(Cont, arrayOf(f.toString()),
+                activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+                MediaScannerConnection.scanFile(cont, arrayOf(f.toString()),
                         null, null)
                 //MediaScannerConnection.scanFile(Cont, arrayOf(f.toString()), null, null)
 
             }
-
-
             catch (e: IOException) {
                 // Unable to create file, likely because external storage is
                 // not currently mounted.
-                Log.w("ExternalStorage", "Error writing " + f, e)
+                Log.w("ExternalStorage", "Error writing $f", e)
             }
-
         }
     }
     private fun openGalleryForImage() {
