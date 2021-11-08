@@ -84,12 +84,12 @@ class MainFragment : Fragment() {
         }
         button_post.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main){
-                val NameStr = withContext(Dispatchers.Default) {
+                val nameStr = withContext(Dispatchers.Default) {
                     post()
                 }
                 val duration = Toast.LENGTH_SHORT
-                Toast.makeText(context, NameStr, duration).show()
-                textView1.text = NameStr
+                Toast.makeText(context, nameStr, duration).show()
+                textView1.text = nameStr
             }
 
         }
@@ -170,9 +170,7 @@ class MainFragment : Fragment() {
 
     fun post():String {
         val uploader = activity?.let { UploadUtility(it) }
-        if (uploader != null) {
-            uploader.uploadFile(currentPhotoPath)
-        }
+        uploader?.uploadFile(currentPhotoPath)
         return ("Все ок")
     }
 

@@ -15,8 +15,8 @@ class UploadUtility(activity: Activity) {
 
     var activity = activity;
     var dialog: ProgressDialog? = null
-    var serverURL: String = "https://e67a-185-52-141-39.ngrok.io/upload"
-    var serverUploadDirectoryPath: String = "https://e67a-185-52-141-39.ngrok.io/upload"
+    var serverURL: String = "https://4dd3-185-52-141-39.ngrok.io/upload"
+    var serverUploadDirectoryPath: String = "https://4dd3-185-52-141-39.ngrok.io/upload"
     val client = OkHttpClient()
 
     fun uploadFile(sourceFilePath: String, uploadedFileName: String? = null) {
