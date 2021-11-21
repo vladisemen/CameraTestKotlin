@@ -8,64 +8,110 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp">
+        <Button
+            android:id="@+id/button_help"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@drawable/help"
+
+
+            />
+
+        <TextView
+            android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingBottom="20dp"
+            android:text="Форма отправки"
+            android:textColor="@color/purple_200"
+            android:textSize="19dp"
+            app:layout_constraintHorizontal_bias="0.516"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+        <ImageView
+            android:id="@+id/foot_left"
+            android:adjustViewBounds="true"
+            android:src="@drawable/left_foot"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:contentDescription="@string/this_is_imageview" />
 
-            <Button
-                android:id="@+id/button_post"
+
+        <ImageView
+            android:id="@+id/foot_right"
+            android:src="@drawable/right_foot"
+            android:adjustViewBounds="true"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/this_is_imageview" />
+        <TextView
+            android:id="@+id/text_name_left_foot"
+            android:layout_width="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@+id/foot_left"
+            android:layout_height="wrap_content"
+
+            android:textSize="19dp"
+            android:textColor="@color/purple_200"
+            android:text="Левая"
+            android:paddingBottom="20dp"/>
+        <TextView
+            android:id="@+id/text_name_right_foot"
+            android:layout_width="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/foot_right"
+            android:layout_height="wrap_content"
+
+            android:textSize="19dp"
+            android:textColor="@color/purple_200"
+            android:text="Правая"
+            android:paddingBottom="20dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_name_right_foot">
+
+            <EditText
+                android:id="@+id/lenghtfoot"
                 android:layout_width="match_parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 android:layout_height="wrap_content"
-                android:text="Запрос к серверу" />
+                android:hint="Введите длину стопы"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
-                android:id="@+id/button_open_camera"
-                android:layout_width="match_parent"
-                app:layout_constraintTop_toBottomOf="@+id/button_post"
-                android:layout_height="wrap_content"
-                android:text="Открыть камеру" />
-
-            <Button
-                android:id="@+id/button_show_photo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/button_open_camera"
-                android:text="Отобразить фото" />
-
-            <Button
-                android:id="@+id/button_delete"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/button_show_photo"
-                android:text="Delete" />
-
-            <Button
-                android:id="@+id/button_openG"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/button_delete"
-                android:text="Открыть галерею" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:adjustViewBounds="true"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/button_openG"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="@string/this_is_imageview" />
+        <Button
+            android:id="@+id/button_post"
+            android:layout_width="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/textUsername"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:text="Отправить" />
 
 
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
 
 
