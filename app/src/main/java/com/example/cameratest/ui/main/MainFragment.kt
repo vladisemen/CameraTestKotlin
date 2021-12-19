@@ -1,10 +1,12 @@
 package com.example.cameratest.ui.main
 
+import URIPathHelper
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -12,7 +14,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -24,6 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.IOException
+import java.nio.file.Path
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,6 +41,7 @@ class MainFragment : Fragment() {
     lateinit var PhotoPathR: Uri
     private val KEY_INDEX = "index"
     val REQUEST_CODE = 100
+    var checkForL = true
 
 
     companion object {
@@ -96,6 +102,14 @@ class MainFragment : Fragment() {
             openGalleryForImage()
         }
          */
+        button_find_left.setOnClickListener {
+            this.checkForL = true
+            openGalleryForImage()
+        }
+        button_find_right.setOnClickListener {
+            this.checkForL = false
+            openGalleryForImage()
+        }
         button_post.setOnClickListener {
             GlobalScope.launch(Dispatchers.Main) {
                 val nameStr = withContext(Dispatchers.Default) {
@@ -110,6 +124,7 @@ class MainFragment : Fragment() {
         //galleryAddPic()
 
     }
+
     fun setAlert(str: Int, nameTitle: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(nameTitle)
@@ -127,11 +142,29 @@ class MainFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.KITKAT)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            foot_left.setImageURI(data?.data) // handle chosen image
+            val uriPathHelper = URIPathHelper()
+            if (checkForL) {
+                foot_left.setImageURI(data?.data) // handle chosen image
+                PhotoPathL = data?.data!!
+                val filePath = uriPathHelper.getPath(context!!, PhotoPathL)
+                if (filePath != null) {
+                    currentPhotoPathL = filePath
+                }
+
+            } else {
+                foot_right.setImageURI(data?.data) // handle chosen image
+                PhotoPathR = data?.data!!
+                val filePath = uriPathHelper.getPath(context!!, PhotoPathR)
+                if (filePath != null) {
+                    currentPhotoPathR = filePath
+                }
+            }
+
         }
         if (currentPhotoPathL !== "") {
             foot_left.setImageURI(this.PhotoPathL)
@@ -140,6 +173,7 @@ class MainFragment : Fragment() {
             foot_right.setImageURI(this.PhotoPathR)
         }
     }
+
 
     private fun dispatchTakePictureIntent(PhotoPathReal: Int) {
         val activity = activity
@@ -218,7 +252,7 @@ class MainFragment : Fragment() {
 
     private fun post(): String {
         val uploader = activity?.let { UploadUtility(it) }
-        uploader?.uploadFile(currentPhotoPathL)
+        uploader?.uploadFile(currentPhotoPathL, currentPhotoPathR)
         return ("Все ок")
     }
 

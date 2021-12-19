@@ -13,16 +13,14 @@
         android:layout_height="wrap_content"
         android:paddingLeft="30dp"
         android:paddingRight="30dp">
+
         <Button
             android:id="@+id/button_help"
             android:layout_width="30dp"
             android:layout_height="30dp"
-
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:background="@drawable/help"
-
-
             />
 
         <TextView
@@ -72,6 +70,16 @@
             android:textColor="@color/purple_200"
             android:text="Левая"
             android:paddingBottom="20dp"/>
+        <Button
+            android:padding="25dp"
+            android:id="@+id/button_find_left"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textSize="5pt"
+            app:layout_constraintStart_toEndOf="@+id/text_name_left_foot"
+            app:layout_constraintTop_toBottomOf="@+id/foot_left"
+            android:background="@drawable/gallery"
+            />
         <TextView
             android:id="@+id/text_name_right_foot"
             android:layout_width="wrap_content"
@@ -83,6 +91,16 @@
             android:textColor="@color/purple_200"
             android:text="Правая"
             android:paddingBottom="20dp"/>
+        <Button
+            android:padding="25dp"
+            android:id="@+id/button_find_right"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:textSize="5pt"
+            app:layout_constraintEnd_toStartOf="@+id/text_name_right_foot"
+            app:layout_constraintTop_toBottomOf="@+id/foot_left"
+            android:background="@drawable/gallery"
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textUsername"
